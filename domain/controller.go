@@ -16,15 +16,18 @@ func GetWeather(w http.ResponseWriter, r *http.Request) {
 	req.finaldate = queryParams.Get("data_fim")
 	req.distance, err = strconv.Atoi(queryParams.Get("distancia"))
 	if err != nil {
+		w.WriteHeader(400)
 		return
 	}
 	req.temperature, err = strconv.Atoi(queryParams.Get("temperatura"))
 	if err != nil {
+		w.WriteHeader(400)
 		return
 	}
 	req.climate = queryParams.Get("clima")
 	req.chanceOfRain, err = strconv.Atoi(queryParams.Get("chance_chuva"))
 	if err != nil {
+		w.WriteHeader(400)
 		return
 	}
 	req.typeOfTourism = queryParams.Get("tipo_turismo")
