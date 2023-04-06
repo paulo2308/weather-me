@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -12,28 +13,20 @@ func GetWeather(w http.ResponseWriter, r *http.Request) {
 	var req request
 	var err error
 	req.city = queryParams.Get("cidade")
-	req.initialDate = queryParams.Get("data_inicial")
-	req.finaldate = queryParams.Get("data_fim")
-	req.distance, err = strconv.Atoi(queryParams.Get("distancia"))
+	req.forecastDays, err = strconv.Atoi(queryParams.Get("dias_previsao"))
 	if err != nil {
 		w.WriteHeader(400)
 		return
 	}
-	req.temperature, err = strconv.Atoi(queryParams.Get("temperatura"))
-	if err != nil {
-		w.WriteHeader(400)
-		return
-	}
-	req.climate = queryParams.Get("clima")
-	req.chanceOfRain, err = strconv.Atoi(queryParams.Get("chance_chuva"))
-	if err != nil {
-		w.WriteHeader(400)
-		return
-	}
-	req.typeOfTourism = queryParams.Get("tipo_turismo")
 	resp, err := Get()
-	fmt.Println(resp, err)
+	if err != nil {
+		return
+	}
+    respJson, err := json.Marshal(resp)
+	if err != nil {
+		return
+	}
 
 	w.WriteHeader(200)
-	fmt.Fprint(w, resp)
+	fmt.Fprint(w, string(respJson))
 }
