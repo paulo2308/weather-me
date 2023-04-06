@@ -1,5 +1,7 @@
 package main
 
+import "module/cmd/app"
+
 func main() {
 	err := run()
 	if err != nil {
@@ -8,6 +10,6 @@ func main() {
 }
 
 func run() error {
-
+	app.Routes()
 	return nil
 }
