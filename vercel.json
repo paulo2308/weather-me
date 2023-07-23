@@ -3,7 +3,8 @@
   "builds": [
     {
       "src": "main.go",
-      "use": "@vercel/go"
+      "use": "@vercel/go",
+      "build": "go build"
     }
   ],
   "routes": [
@@ -12,7 +13,12 @@
       "dest": "route.go"
     }
   ],
-  "projectSettings": {
-    "buildCommand": "go build"
+  "install": {
+    "include": [
+      "go.sum",
+      "go.mod"
+    ],
+    "cmd": "go mod tidy"
   }
 }
+
