@@ -10,19 +10,50 @@ import (
 
 func GetWeather(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
-	var req request
+
+	var req Request
 	var err error
-	req.city = queryParams.Get("cidade")
-	req.forecastDays, err = strconv.Atoi(queryParams.Get("dias_previsao"))
+	req.Latitude = queryParams.Get("latitude")
+	req.Longitude = queryParams.Get("longitude")
+	req.Cidade = queryParams.Get("cidade")
+
+	dist := queryParams.Get("distancia")
+	if dist != "" {
+		req.Distancia, err = strconv.Atoi(dist)
+		if err != nil {
+			w.WriteHeader(400)
+			return
+		}
+	}
+
+	clima := queryParams.Get("clima")
+	switch clima {
+	case "ceu_limpo", "sol_entre_nuvens", "nublado":
+		req.Clima = clima
+	default:
+		req.Clima = ""
+	}
+
+	req.Ordenacao = queryParams.Get("sort")
+
+	req.Pagina, err = strconv.Atoi(queryParams.Get("page"))
 	if err != nil {
 		w.WriteHeader(400)
 		return
 	}
-	resp, err := Get()
+
+	req.ItensPorPagina, err = strconv.Atoi(queryParams.Get("itens_per_page"))
+	if err != nil {
+		w.WriteHeader(400)
+		return
+	}
+
+	resp, err := GetCitiesService(&req)
 	if err != nil {
 		return
 	}
-    respJson, err := json.Marshal(resp)
+
+	respJson, err := json.Marshal(resp)
 	if err != nil {
 		return
 	}
