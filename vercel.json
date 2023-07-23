@@ -11,6 +11,8 @@
       "src": "/previsoes\\?(.*)",
       "dest": "route.go"
     }
-  ]
+  ],
+  "projectSettings": {
+    "buildCommand": "go build"
+  }
 }
-
