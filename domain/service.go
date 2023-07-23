@@ -143,3 +143,4 @@ type byDist []WeatherResponse
 func (bd byDist) Len() int           { return len(bd) }
 func (bd byDist) Swap(i, j int)      { bd[i], bd[j] = bd[j], bd[i] }
 func (bd byDist) Less(i, j int) bool { return bd[i].Distance < bd[j].Distance }
+
