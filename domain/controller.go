@@ -10,6 +10,7 @@ import (
 
 func GetWeather(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
+
 	var req Request
 	var err error
 	req.Latitude = queryParams.Get("latitude")
@@ -40,6 +41,7 @@ func GetWeather(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
+
 	req.ItensPorPagina, err = strconv.Atoi(queryParams.Get("itens_per_page"))
 	if err != nil {
 		w.WriteHeader(400)
